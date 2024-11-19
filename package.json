@@ -1,23 +1,21 @@
 {
-  "name": "react",
+  "name": "gmanager",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "concurrently \"vite --host\" \"nodemon server/index.mjs\"",
     "build": "vite build",
+    "preview": "vite preview --port 5173",
     "lint": "eslint .",
-    "preview": "vite preview",
     "test:watch": "npx jest --watch --detectOpenHandles",
     "build-watch": "concurrently \"npx webpack --watch --mode development\" \"npm run sass\"",
     "sass": "node-sass public/styles/main.scss public/styles/style.css -w",
     "build:dev": "vite build && nodemon server/index.mjs",
-    "node": "node server/index.mjs",
-    "vite": "vite preview",
-    "serve": "serve -s dist -l 5137",
-    "start": "concurrently \"npm run node\" \"npm run vite\""
+    "start": "concurrently \"npm run node\" \"npm run vite -- --port 5173\""
   },
   "dependencies": {
+    "alertify": "^0.3.0",
     "axios": "^1.7.7",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
@@ -32,6 +30,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.8.2",
     "morgan": "^1.10.0",
+    "node": "^18.20.5",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.5",
     "react-dom": "^18.3.1",
@@ -47,6 +46,14 @@
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.14",
     "globals": "^15.11.0",
-    "vite": "^5.4.10"
-  }
+    "vite": "^5.4.11"
+  },
+  "config": {
+    "production_url": "https://gmanager.domainstacks.net"
+  },
+  "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
+  "main": "eslint.config.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

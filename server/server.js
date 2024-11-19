@@ -4,6 +4,9 @@ import dotenv from "dotenv";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
+import path from 'path';
+import bodyParser from 'body-parser';
+import { fileURLToPath } from 'url';
 import rateLimit from "express-rate-limit";
 import authRoutes from "./routes/authRoutes.js";
 import authMiddleware from "./middleware/authMiddleware.js";
@@ -11,6 +14,17 @@ import authMiddleware from "./middleware/authMiddleware.js";
 dotenv.config();
 
 const app = express();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use(cors({
+  origin: '*', // Allows requests from any origin
+}));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+// Static file serving
+app.use(express.static(path.join(__dirname, '/dist')));
 
 // Middleware
 app.use(express.json()); // Parse JSON requests
@@ -36,12 +50,12 @@ app.get("/api/protected", authMiddleware, function (req, res) {
 
 // MongoDB Connection
 mongoose
-  .connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(function () {
+  .connect(process.env.MONGO_URI)
+  .then(() => {
     console.log("Connected to MongoDB");
   })
-  .catch(function (err) {
+  .catch((err) => {
     console.error("MongoDB connection error:", err);
   });
-
+  
 export default app;
