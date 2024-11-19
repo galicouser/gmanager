@@ -6,14 +6,15 @@
   "scripts": {
     "dev": "concurrently \"vite --host\" \"nodemon server/index.mjs\"",
     "build": "vite build",
-    "preview": "vite preview --port 5173",
+    "preview": "vite preview --port 5171",
     "lint": "eslint .",
     "test:watch": "npx jest --watch --detectOpenHandles",
     "build-watch": "concurrently \"npx webpack --watch --mode development\" \"npm run sass\"",
     "sass": "node-sass public/styles/main.scss public/styles/style.css -w",
     "build:dev": "vite build && nodemon server/index.mjs",
     "node": "node server/index.mjs",
-    "vite": "vite preview --port 5171",
+    "vite": "vite preview",
+    "serve": "serve -s dist -l 5137",
     "start": "concurrently \"npm run node\" \"npm run vite\""
   },
   "dependencies": {
