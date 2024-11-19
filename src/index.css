@@ -1,0 +1,22 @@
+/* Reset default margin and padding */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+/* Ensure full-height parent containers */
+#root, .vh-100 {
+  height: 100%;
+}
+
+/* Center the content */
+.d-flex {
+  display: flex;
+}
+.justify-content-center {
+  justify-content: center;
+}
+.align-items-center {
+  align-items: center;
+}
