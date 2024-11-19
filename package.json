@@ -13,8 +13,7 @@
     "sass": "node-sass public/styles/main.scss public/styles/style.css -w",
     "build:dev": "vite build && nodemon server/index.mjs",
     "node": "node server/index.mjs",
-    "vite": "vite preview",
-    "serve": "serve -s dist -l 5137",
+    "vite": "vite preview --port 5171",
     "start": "concurrently \"npm run node\" \"npm run vite\""
   },
   "dependencies": {
