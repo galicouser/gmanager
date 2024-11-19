@@ -14,7 +14,8 @@
     "build:dev": "vite build && nodemon server/index.mjs",
     "node": "node server/index.mjs",
     "vite": "vite preview --port 5171",
-    "start": "concurrently \"npm run node\" \"npm run vite\""
+    "serve": "serve -s dist -l 5171",
+    "start": "concurrently \"npm run node\" \"npm run serve\""
   },
   "dependencies": {
     "alertify": "^0.3.0",
@@ -35,7 +36,8 @@
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.5",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.28.0"
+    "react-router-dom": "^6.28.0",
+    "serve": "^14.2.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
