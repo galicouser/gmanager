@@ -17,20 +17,13 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use(cors({
-  origin: '*', // Allows requests from any origin
-}));
+// Middleware
+app.use(cors({ origin: '*' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
-// Static file serving
-app.use(express.static(path.join(__dirname, '/dist')));
-
-// Middleware
-app.use(express.json()); // Parse JSON requests
-app.use(helmet()); // Secure HTTP headers
-app.use(cors()); // Enable CORS
-app.use(morgan("combined")); // Log HTTP requests
+app.use(express.json());
+app.use(helmet());
+app.use(morgan("combined"));
 
 // Rate Limiting
 const limiter = rateLimit({
@@ -38,14 +31,25 @@ const limiter = rateLimit({
   max: 100, // Limit each IP to 100 requests per windowMs
   message: "Too many requests from this IP, please try again later.",
 });
-app.use("/api", limiter); // Apply rate limiting to /api routes
+app.use("/api", limiter);
 
 // API Routes
 app.use("/api", authRoutes);
 
-// Protected Test Route (Authenticated Only)
-app.get("/api/protected", authMiddleware, function (req, res) {
-  res.status(200).json({ message: "You have access to this protected route." });
+// Serve static files from the Vite build directory
+const distPath = path.join(__dirname, '../dist');
+app.use(express.static(distPath));
+
+// Serve React routes (fallback) correctly
+app.get('*', (req, res, next) => {
+  const acceptHeader = req.headers.accept || '';
+  
+  // Check if the request is for an HTML document
+  if (acceptHeader.includes('text/html')) {
+    res.sendFile(path.join(distPath, 'index.html'));
+  } else {
+    next(); // Pass other requests (like JS, CSS, etc.) to Express static middleware
+  }
 });
 
 // MongoDB Connection
@@ -57,5 +61,5 @@ mongoose
   .catch((err) => {
     console.error("MongoDB connection error:", err);
   });
-  
+
 export default app;
